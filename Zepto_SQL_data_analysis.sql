@@ -132,3 +132,43 @@ SUM(weightInGms * availableQuantity) AS total_weight
 FROM zepto
 GROUP BY category
 ORDER BY total_weight;
+
+-- Q9. [Advanced] Find the top 3 most discounted products in each category using a CTE and Window Function.
+WITH RankedDiscounts AS (
+    SELECT name, category, discountPercent,
+           DENSE_RANK() OVER(PARTITION BY category ORDER BY discountPercent DESC) as rank
+    FROM zepto
+)
+SELECT name, category, discountPercent
+FROM RankedDiscounts
+WHERE rank <= 3;
+
+-- Q10. [Advanced] Calculate the running total of expected revenue per category using Window Functions.
+WITH CategoryRevenue AS (
+    SELECT category,
+           SUM(discountedSellingPrice * availableQuantity) as revenue
+    FROM zepto
+    GROUP BY category
+)
+SELECT category, revenue,
+       SUM(revenue) OVER (ORDER BY revenue DESC) as running_total_revenue
+FROM CategoryRevenue;
+
+-- Q11. [Advanced] Analyze out-of-stock rate by weight categories using conditional aggregation.
+WITH WeightCategorized AS (
+    SELECT 
+        CASE 
+            WHEN weightInGms < 1000 THEN 'Low (<1kg)'
+            WHEN weightInGms < 5000 THEN 'Medium (1kg-5kg)'
+            ELSE 'Bulk (>5kg)'
+        END AS weight_tier,
+        outOfStock
+    FROM zepto
+)
+SELECT weight_tier,
+       COUNT(*) as total_items,
+       SUM(CASE WHEN outOfStock = TRUE THEN 1 ELSE 0 END) as out_of_stock_items,
+       ROUND((SUM(CASE WHEN outOfStock = TRUE THEN 1 ELSE 0 END) * 100.0) / COUNT(*), 2) as out_of_stock_percentage
+FROM WeightCategorized
+GROUP BY weight_tier
+ORDER BY out_of_stock_percentage DESC;

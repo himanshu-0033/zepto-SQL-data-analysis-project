@@ -1,14 +1,7 @@
-# 🛒 Zepto E-commerce SQL Data Analyst Portfolio Project
-This is a complete, real-world data analyst portfolio project based on an e-commerce inventory dataset scraped from [Zepto](https://www.zeptonow.com/) — one of India’s fastest-growing quick-commerce startups. This project simulates real analyst workflows, from raw data exploration to business-focused data analysis.
+# 🛒 Zepto E-commerce SQL Data Analysis
 
-This project is perfect for:
-- 📊 Data Analyst aspirants who want to build a strong **Portfolio Project** for interviews and LinkedIn
-- 📚 Anyone learning SQL hands-on
-- 💼 Preparing for interviews in retail, e-commerce, or product analytics
-
-# **🎥 Watch this [YouTube video](https://www.youtube.com/watch?v=x8dfQkKTyP0&list=PLAx-M6Di0SisFJ1rv5M_FRHUlGA5rtUf_&index=2) to implement the full project from scratch:**  
-[![SQL Data Analyst Portfolio Project using Zepto Inventory Dataset](https://github.com/user-attachments/assets/a1895ada-15e4-4f98-aa0d-597a4092c845)](https://www.youtube.com/watch?v=x8dfQkKTyP0&list=PLAx-M6Di0SisFJ1rv5M_FRHUlGA5rtUf_&index=2)
-🔗 *Link to Video:* [Watch on Youtube](https://www.youtube.com/watch?v=x8dfQkKTyP0&list=PLAx-M6Di0SisFJ1rv5M_FRHUlGA5rtUf_&index=2)
+This is a complete, real-world data analysis project based on an e-commerce inventory dataset scraped from [Zepto](https://www.zeptonow.com/) — one of India’s fastest-growing quick-commerce startups. 
+The project demonstrates end-to-old data analyst workflows, from raw data exploration and cleaning to deriving actionable business insights using SQL.
 
 ## 📌 Project Overview
 
@@ -21,6 +14,8 @@ The goal is to simulate how actual data analysts in the e-commerce or retail ind
 ✅ Implement **Data Cleaning** to handle null values, remove invalid entries, and convert pricing from paise to rupees
 
 ✅ Write **business-driven SQL queries** to derive insights around **pricing, inventory, stock availability, revenue** and more
+
+✅ Perform **Visual Data Analysis** using a Python Jupyter Notebook (`Zepto_Data_Analysis.ipynb`) with Pandas, Matplotlib, and Seaborn to visualize category distribution, discount trends, and out-of-stock rates.
 
 ## 📁 Dataset Overview
 The dataset was sourced from [Kaggle](https://www.kaggle.com/datasets/palvinder2006/zepto-inventory-dataset/data?select=zepto_v2.csv) and was originally scraped from Zepto’s official product listings. It mimics what you’d typically encounter in a real-world e-commerce inventory system.
@@ -121,7 +116,7 @@ CREATE TABLE zepto (
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/amlanmohanty/zepto-SQL-data-analysis-project.git
+   git clone https://github.com/himanshu-0033/zepto-SQL-data-analysis-project.git
    cd zepto-SQL-data-analysis-project
    ```
 2. **Open zepto_SQL_data_analysis.sql**
@@ -142,28 +137,17 @@ CREATE TABLE zepto (
 
       - Import the dataset (convert to UTF-8 if necessary)
 
-4. **Follow along with the YouTube video for full walkthrough. 👨‍💼**
-
 ## 📜 License
 
 MIT — feel free to fork, star, and use in your portfolio.
 
 ## 👨‍💻 About the Author
-Hey, I’m Amlan Mohanty — a Data Analyst & Content Creator.
-I break down complex data topics into simple, practical content that actually helps you land a job.
 
- ### 🚀 Stay Connected & Join the Data Drool Community
-If you enjoyed this project and want to keep learning and growing as a data analyst, let’s stay in touch! I regularly share content around SQL, data analytics, portfolio projects, job tips, and more.
+**Himanshu Malik** | IIT Kharagpur  
+Data Analyst  
 
-🎥 YouTube: [Amlan Mohanty](https://www.youtube.com/@amlanmohanty1)
-- Beginner-friendly tutorials, real-world projects, job and career advice
+💼 **LinkedIn:** https://www.linkedin.com/in/himanshumalik/  *(Please update with your exact profile URL)*
+💻 **GitHub:** [himanshu-0033](https://github.com/himanshu-0033)  
 
-📺 Instagram: [data.drool](https://www.instagram.com/data.drool/)
-- Quick SQL tips, data memes, and behind-the-scenes content
-
-💼 LinkedIn: [Amlan Mohanty](https://www.linkedin.com/in/amlanmohanty1/)
-- Let’s connect professionally and grow your data career
-
-
-## 💡 Thanks for checking out the project! Your support means a lot — feel free to star ⭐ this repo or share it with someone learning SQL.🚀
+Feel free to reach out if you have any questions or would like to discuss data analytics!
 
