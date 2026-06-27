@@ -1,7 +1,7 @@
 # 🛒 Zepto E-commerce SQL Data Analysis
 
 This is a complete, real-world data analysis project based on an e-commerce inventory dataset scraped from [Zepto](https://www.zeptonow.com/) — one of India’s fastest-growing quick-commerce startups. 
-The project demonstrates end-to-old data analyst workflows, from raw data exploration and cleaning to deriving actionable business insights using SQL.
+The project demonstrates end-to-end data analyst workflows, from raw data exploration and cleaning to deriving actionable business insights using SQL.
 
 ## 📌 Project Overview
 
@@ -16,6 +16,12 @@ The goal is to simulate how actual data analysts in the e-commerce or retail ind
 ✅ Write **business-driven SQL queries** to derive insights around **pricing, inventory, stock availability, revenue** and more
 
 ✅ Perform **Visual Data Analysis** using a Python Jupyter Notebook (`Zepto_Data_Analysis.ipynb`) with Pandas, Matplotlib, and Seaborn to visualize category distribution, discount trends, and out-of-stock rates.
+
+## 🛠️ Tech Stack
+- **Database:** PostgreSQL
+- **SQL Concepts:** Joins, CTEs, Window Functions, Aggregations, CASE Statements
+- **Python:** Pandas, Matplotlib, Seaborn
+- **Tools:** pgAdmin, Jupyter Notebook
 
 ## 📁 Dataset Overview
 The dataset was sourced from [Kaggle](https://www.kaggle.com/datasets/palvinder2006/zepto-inventory-dataset/data?select=zepto_v2.csv) and was originally scraped from Zepto’s official product listings. It mimics what you’d typically encounter in a real-world e-commerce inventory system.
@@ -111,6 +117,19 @@ CREATE TABLE zepto (
 
 - Measured total inventory weight per product category
 
+### 6. 🚀 Advanced Analytics
+- Used CTEs and `DENSE_RANK()` window function to find top 3 most discounted products per category
+
+- Calculated running total of expected revenue across categories using window functions
+
+- Analyzed out-of-stock rates across weight tiers (Low, Medium, Bulk) using conditional aggregation
+
+## 📈 Key Findings
+- **3,731 products** across multiple categories after data cleaning
+- **Snacks & Branded Foods** have the largest catalog presence
+- Most products have **less than 10% discount**, with very few exceeding 50%
+- High-MRP products (>₹500) rarely get significant discounts
+- Certain categories show higher out-of-stock rates, indicating supply chain gaps
 
 ## 🛠️ How to Use This Project
 
@@ -137,6 +156,12 @@ CREATE TABLE zepto (
 
       - Import the dataset (convert to UTF-8 if necessary)
 
+4. **Run the Jupyter Notebook for visual analysis**
+   ```bash
+   pip install pandas matplotlib seaborn jupyter
+   jupyter notebook Zepto_Data_Analysis.ipynb
+   ```
+
 ## 📜 License
 
 MIT — feel free to fork, star, and use in your portfolio.
@@ -146,7 +171,7 @@ MIT — feel free to fork, star, and use in your portfolio.
 **Himanshu Malik** | IIT Kharagpur  
 Data Analyst  
 
-💼 **LinkedIn:** https://www.linkedin.com/in/himanshumalik/  *(Please update with your exact profile URL)*
+💼 **LinkedIn:** [Himanshu Malik](https://www.linkedin.com/feed/)  
 💻 **GitHub:** [himanshu-0033](https://github.com/himanshu-0033)  
 
 Feel free to reach out if you have any questions or would like to discuss data analytics!
