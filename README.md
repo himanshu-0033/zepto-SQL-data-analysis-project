@@ -1,60 +1,47 @@
-# 🛒 Zepto E-commerce SQL Data Analysis
+# Zepto SQL Data Analysis Project
 
-This is a complete, real-world data analysis project based on an e-commerce inventory dataset scraped from [Zepto](https://www.zeptonow.com/) — one of India’s fastest-growing quick-commerce startups. 
-The project demonstrates end-to-end data analyst workflows, from raw data exploration and cleaning to deriving actionable business insights using SQL.
+SQL + Python data analysis on an e-commerce inventory dataset from [Zepto](https://www.zeptonow.com/). Picked this dataset because I wanted to work with real messy product data and write actual business queries, not just textbook stuff.
 
-## 📌 Project Overview
+Did the whole thing end to end — set up the database, explored and cleaned the data, wrote a bunch of analysis queries in SQL, and made some charts in a Jupyter notebook.
 
-The goal is to simulate how actual data analysts in the e-commerce or retail industries work behind the scenes to use SQL to:
+## What's in here
 
-✅ Set up a messy, real-world e-commerce inventory **database**
+- Database setup and CSV import into PostgreSQL
+- EDA — nulls, categories, stock status, duplicate SKUs
+- Data cleaning — removed bad rows, converted prices from paise to rupees
+- SQL queries for business insights (discounts, revenue, pricing, stock analysis)
+- Some advanced stuff — CTEs, `DENSE_RANK()`, running totals, conditional aggregation
+- Visualizations in Python (Pandas + Matplotlib + Seaborn)
 
-✅ Perform **Exploratory Data Analysis (EDA)** to explore product categories, availability, and pricing inconsistencies
+## Tech Stack
 
-✅ Implement **Data Cleaning** to handle null values, remove invalid entries, and convert pricing from paise to rupees
+- PostgreSQL, pgAdmin
+- SQL (joins, CTEs, window functions, CASE, aggregations)
+- Python 3, Pandas, Matplotlib, Seaborn
+- Jupyter Notebook
 
-✅ Write **business-driven SQL queries** to derive insights around **pricing, inventory, stock availability, revenue** and more
+## Dataset
 
-✅ Perform **Visual Data Analysis** using a Python Jupyter Notebook (`Zepto_Data_Analysis.ipynb`) with Pandas, Matplotlib, and Seaborn to visualize category distribution, discount trends, and out-of-stock rates.
+From [Kaggle](https://www.kaggle.com/datasets/palvinder2006/zepto-inventory-dataset/data?select=zepto_v2.csv) — originally scraped from Zepto's app. Each row is one SKU. Same product shows up multiple times with different sizes/weights/discounts, which is normal for e-commerce catalogs.
 
-## 🛠️ Tech Stack
-- **Database:** PostgreSQL
-- **SQL Concepts:** Joins, CTEs, Window Functions, Aggregations, CASE Statements
-- **Python:** Pandas, Matplotlib, Seaborn
-- **Tools:** pgAdmin, Jupyter Notebook
+**Columns:**
 
-## 📁 Dataset Overview
-The dataset was sourced from [Kaggle](https://www.kaggle.com/datasets/palvinder2006/zepto-inventory-dataset/data?select=zepto_v2.csv) and was originally scraped from Zepto’s official product listings. It mimics what you’d typically encounter in a real-world e-commerce inventory system.
+| Column | What it is |
+|--------|-----------|
+| `sku_id` | Unique ID for each entry |
+| `name` | Product name |
+| `category` | Category (Fruits, Snacks, Beverages etc.) |
+| `mrp` | MRP in paise (converted to ₹ during cleaning) |
+| `discountPercent` | Discount % on MRP |
+| `discountedSellingPrice` | Price after discount, also in paise originally |
+| `availableQuantity` | How many units are in stock |
+| `weightInGms` | Weight in grams |
+| `outOfStock` | True/false |
+| `quantity` | Units per pack |
 
-Each row represents a unique SKU (Stock Keeping Unit) for a product. Duplicate product names exist because the same product may appear multiple times in different package sizes, weights, discounts, or categories to improve visibility – exactly how real catalog data looks.
+## How the project is structured
 
-🧾 Columns:
-- **sku_id:** Unique identifier for each product entry (Synthetic Primary Key)
-
-- **name:** Product name as it appears on the app
-
-- **category:** Product category like Fruits, Snacks, Beverages, etc.
-
-- **mrp:** Maximum Retail Price (originally in paise, converted to ₹)
-
-- **discountPercent:** Discount applied on MRP
-
-- **discountedSellingPrice:** Final price after discount (also converted to ₹)
-
-- **availableQuantity:** Units available in inventory
-
-- **weightInGms:** Product weight in grams
-
-- **outOfStock:** Boolean flag indicating stock availability
-
-- **quantity:** Number of units per package (mixed with grams for loose produce)
-
-## 🔧 Project Workflow
-
-Here’s a step-by-step breakdown of what we do in this project:
-
-### 1. Database & Table Creation
-We start by creating a SQL table with appropriate data types:
+### 1. Table setup
 
 ```sql
 CREATE TABLE zepto (
@@ -71,108 +58,76 @@ CREATE TABLE zepto (
 );
 ```
 
-### 2. Data Import
-- Loaded CSV using pgAdmin's import feature.
+Imported the CSV through pgAdmin. You can also use `\copy`:
 
- - If you're not able to use the import feature, write this code instead:
 ```sql
-   \copy zepto(category,name,mrp,discountPercent,availableQuantity,
-            discountedSellingPrice,weightInGms,outOfStock,quantity)
-  FROM 'data/zepto_v2.csv' WITH (FORMAT csv, HEADER true, DELIMITER ',', QUOTE '"', ENCODING 'UTF8');
+\copy zepto(category,name,mrp,discountPercent,availableQuantity,
+         discountedSellingPrice,weightInGms,outOfStock,quantity)
+FROM 'zepto_v2.csv' WITH (FORMAT csv, HEADER true, DELIMITER ',', QUOTE '"', ENCODING 'UTF8');
 ```
-- Faced encoding issues (UTF-8 error), which were fixed by saving the CSV file using CSV UTF-8 format.
 
-### 3. 🔍 Data Exploration
-- Counted the total number of records in the dataset
+> I got a UTF-8 encoding error the first time — re-saving the CSV as "CSV UTF-8" from Excel sorted it out.
 
-- Viewed a sample of the dataset to understand structure and content
+### 2. Exploration
 
-- Checked for null values across all columns
+Checked total rows, looked at sample data, found nulls, listed all categories, compared in-stock vs out-of-stock counts, and found products that appear as multiple SKUs.
 
-- Identified distinct product categories available in the dataset
+### 3. Cleaning
 
-- Compared in-stock vs out-of-stock product counts
+- Dropped rows where MRP was 0 (doesn't make sense)
+- Divided `mrp` and `discountedSellingPrice` by 100 to convert paise → rupees
 
-- Detected products present multiple times, representing different SKUs
+### 4. Business queries
 
-### 4. 🧹 Data Cleaning
-- Identified and removed rows where MRP or discounted selling price was zero
+Wrote queries for:
+- Top 10 highest-discount products
+- Out-of-stock items with high MRP
+- Revenue estimate per category
+- Products above ₹500 MRP with < 10% discount
+- Categories with best average discounts
+- Price per gram (to compare value across pack sizes)
+- Grouping products by weight (Low / Medium / Bulk)
+- Total inventory weight per category
 
-- Converted mrp and discountedSellingPrice from paise to rupees for consistency and readability
-  
-### 5. 📊 Business Insights
-- Found top 10 best-value products based on discount percentage
+### 5. Advanced queries
 
-- Identified high-MRP products that are currently out of stock
+- Top 3 most discounted per category using CTE + `DENSE_RANK()`
+- Running total of revenue across categories with `SUM() OVER()`
+- Out-of-stock % by weight tier using conditional aggregation
 
-- Estimated potential revenue for each product category
+## What I found
 
-- Filtered expensive products (MRP > ₹500) with minimal discount
+- Around 3,731 usable products after cleaning
+- Snacks and branded foods have way more SKUs than other categories
+- Discounts are mostly small — under 10% for most products
+- Premium items (MRP > ₹500) almost never get big discounts
+- A few categories have significantly higher out-of-stock rates than others
 
-- Ranked top 5 categories offering highest average discounts
+## How to run this
 
-- Calculated price per gram to identify value-for-money products
-
-- Grouped products based on weight into Low, Medium, and Bulk categories
-
-- Measured total inventory weight per product category
-
-### 6. 🚀 Advanced Analytics
-- Used CTEs and `DENSE_RANK()` window function to find top 3 most discounted products per category
-
-- Calculated running total of expected revenue across categories using window functions
-
-- Analyzed out-of-stock rates across weight tiers (Low, Medium, Bulk) using conditional aggregation
-
-## 📈 Key Findings
-- **3,731 products** across multiple categories after data cleaning
-- **Snacks & Branded Foods** have the largest catalog presence
-- Most products have **less than 10% discount**, with very few exceeding 50%
-- High-MRP products (>₹500) rarely get significant discounts
-- Certain categories show higher out-of-stock rates, indicating supply chain gaps
-
-## 🛠️ How to Use This Project
-
-1. **Clone the repository**
+1. Clone it:
    ```bash
    git clone https://github.com/himanshu-0033/zepto-SQL-data-analysis-project.git
    cd zepto-SQL-data-analysis-project
    ```
-2. **Open zepto_SQL_data_analysis.sql**
 
-    This file contains:
+2. Database:
+   - Create a PostgreSQL database
+   - Run `Zepto_SQL_data_analysis.sql`
+   - Import `zepto_v2.csv`
 
-      - Table creation
-
-      - Data exploration
-
-      - Data cleaning
-
-      - SQL Business analysis
-  
-3. **Load the dataset into pgAdmin or any other PostgreSQL client**
-
-      - Create a database and run the SQL file
-
-      - Import the dataset (convert to UTF-8 if necessary)
-
-4. **Run the Jupyter Notebook for visual analysis**
+3. Notebook:
    ```bash
    pip install pandas matplotlib seaborn jupyter
    jupyter notebook Zepto_Data_Analysis.ipynb
    ```
 
-## 📜 License
+## License
 
-MIT — feel free to fork, star, and use in your portfolio.
+MIT
 
-## 👨‍💻 About the Author
+## Author
 
-**Himanshu Malik** | IIT Kharagpur  
-Data Analyst  
+**Himanshu Malik** — IIT Kharagpur
 
-💼 **LinkedIn:** [Himanshu Malik](https://www.linkedin.com/feed/)  
-💻 **GitHub:** [himanshu-0033](https://github.com/himanshu-0033)  
-
-Feel free to reach out if you have any questions or would like to discuss data analytics!
-
+[LinkedIn](https://www.linkedin.com/in/himanshu-malik) · [GitHub](https://github.com/himanshu-0033)
